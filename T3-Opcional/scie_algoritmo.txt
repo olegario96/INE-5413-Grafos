@@ -1,0 +1,17 @@
+G.calcula_scie(grafo) -> Conjunto
+	scie = {}
+	vizinho_pertence = falso
+
+	Para cada vertice do grafo faça
+		Para cada v_adj ∈ G.adjacentes(vertice) faça
+			Se v_adj ∈ scie então
+				vizinho_pertence = verdadeiro
+			Fim se
+		Fim Para
+		Se !vizinho_pertence então
+			scie.adiciona(vertice)
+		Fim se
+		vizinho_pertence = falso
+	Fim para
+
+	retorna scie
