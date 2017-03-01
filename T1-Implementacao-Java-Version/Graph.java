@@ -55,7 +55,7 @@ public class Graph {
 	}
 	
 	public boolean is_regular() {
-		int rand_degree = get_random_vertex().degree();
+		int rand_degree = this.get_random_vertex().degree();
 		for(Vertex i: this.vertex) {
 			if (i.degree() != rand_degree) {
 				return false;
@@ -75,13 +75,43 @@ public class Graph {
 		return true;
 	}
 	
-	public Set<Vertex> transitive_closure(Vertex v, Set<Vertex> visited) {
+	public Set<Vertex> transitive_closure(Vertex v) {
+		return this.search_for_transitive_closure(v, (new HashSet<Vertex>()));
+	}
+	
+	public Set<Vertex> search_for_transitive_closure(Vertex v, Set<Vertex> visited) {
 		visited.add(v);
-		for(Vertex i:v.get_neighbours()) {
+		for (Vertex i: v.get_neighbours()) {
 			if (!(visited.contains(i))) {
-				transitive_closure(i, visited);				
+				search_for_transitive_closure(i, visited);
 			}
 		}
 		return visited;
+	}
+	
+	public boolean is_tree() {
+			Vertex v = this.get_random_vertex();
+			return (this.is_connected()) && this.has_cycle(v, v, (new HashSet<Vertex>())); 
+	}
+	
+	public boolean is_connected() {
+		return this.vertex == this.transitive_closure(this.get_random_vertex());
+	}
+	
+	public boolean has_cycle(Vertex v1, Vertex v2, Set<Vertex> visited) {
+		if (visited.contains(v1)) {
+			return true;
+		}
+		
+		visited.add(v1);
+		for(Vertex i:v1.get_neighbours()) {
+			if (i != v2) {
+				if (has_cycle(i, v1, visited)) {
+					return true;
+				}
+			}
+		}
+		visited.remove(v1);
+		return false;
 	}
 }
