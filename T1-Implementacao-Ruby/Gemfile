@@ -1,0 +1,4 @@
+source 'https://rubygems.org'
+
+# RSpec meta-gem that depends on the other components
+gem 'rspec'
